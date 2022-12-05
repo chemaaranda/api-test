@@ -7,6 +7,7 @@ function App() {
 
   const [content, setContent] = useState("*****************");
   const [endPonintsList, setEndPonintsList] = useState([]);
+  const [callMsg, setMsg] = useState()
 
   const [callData, setCallData] = useState({
     endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
@@ -28,7 +29,7 @@ function App() {
 
   const startCall= () => {
     alert('check data has a valid JSON')
-    setContent("calling..." + callData.endPoint)
+    setMsg("calling..." + callData.endPoint)
     setEndPonintsList([...endPonintsList, callData.endPoint])
     setCallData(previousState => {
       return { ...previousState, timestampCallStart: Date.now() }
@@ -48,6 +49,7 @@ function App() {
     .then(res => res.json())
     .then(
       (result) => {
+        setMsg("response")
         /*this.setState({
           isLoaded: true,
           items: result.items
@@ -65,7 +67,7 @@ function App() {
           error
         });*/
         console.log(error)
-        setContent("ERROR")
+        setMsg("ERROR")
       }
     )
   }
@@ -120,7 +122,7 @@ function App() {
       </span>
       
       <button onClick={startCall}>ENVIAR</button>
-      <DisplayApi data = { content }/>
+      <DisplayApi msg ={callMsg} data = { content }/>
     </div>
   );
 }

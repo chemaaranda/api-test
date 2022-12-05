@@ -2,15 +2,22 @@ import { useState, useEffect } from "react";
 import './App.css';
 function DisplayApi(props) {
 
-    const [content, setContent] = useState("");
+  const [content, setContent] = useState("");
+  const [msg, setMsg] = useState("");
 
     useEffect(() => {
-            setContent(props.data)
+      setContent(props.data)
+      setMsg(props.msg)
     }, [props]);
 
 return (
     <div>
-      {content}
+      <div>
+        {msg}
+      </div>
+      <div>
+        {content}
+      </div>
     </div>
   );
 }
