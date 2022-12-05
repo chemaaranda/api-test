@@ -10,6 +10,8 @@ function App() {
 
   const [callData, setCallData] = useState({
     endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
+    data: "{id: 1234}",
+    headers : "{'Content-Type': 'application/json'}",
     type: "GET",
     response: "",
     timestampCallStart: "",
@@ -25,19 +27,24 @@ function App() {
 }, [callData]);
 
   const startCall= () => {
+    alert('check data has a valid JSON')
     setContent("calling..." + callData.endPoint)
     setEndPonintsList([...endPonintsList, callData.endPoint])
-    console.log(endPonintsList)
     setCallData(previousState => {
       return { ...previousState, timestampCallStart: Date.now() }
     });
     console.log(callData)
     console.log(endPonintsList)
-    fetch(callData.endPoint, {
-        "method": callData.type,
-        "headers": {
-        }
-      })
+
+    let callConfig = { };
+    callConfig = {
+      "method": callData.type,
+      }
+      if(callData.type !== 'GET') callConfig.body = JSON.stringify(callData.data) 
+
+      console.log(callConfig)
+
+    fetch(callData.endPoint, callConfig)
     .then(res => res.json())
     .then(
       (result) => {
@@ -74,6 +81,18 @@ function App() {
       return { ...previousState, type: type }
     });
   }
+  
+  const setData= (data) => {
+    setCallData(previousState => {
+      return { ...previousState, data: data }
+    });
+  }
+
+  const setHeaders= (headers) => {
+    setCallData(previousState => {
+      return { ...previousState, headers: headers }
+    });
+  }
 
   return (
     <div>  
@@ -85,6 +104,12 @@ function App() {
           value={callData.endPoint} 
           onChange={(e) => setEndpoint(e.target.value)}
         ></input>
+        <textarea onChange={(e) => setData(e.target.value)}>
+          {callData.headers}
+        </textarea>
+        <textarea onChange={(e) => setHeaders(e.target.value)}>
+          {callData.data}
+        </textarea>
         <span>
         <select onChange={(e) => setType(e.target.value)}>
           <option value="PUT">PUT</option>
