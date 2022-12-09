@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import logo from './logo.svg';
 import './App.css';
+import './bulma-rtl.min.css';
 import DisplayApi from './DisplayApi';
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
     console.log(callData)
     console.log(endPonintsList)
 
-    let callConfig = { };
+    let callConfig = {};
     callConfig = {
       "method": callData.type,
       }
@@ -98,7 +99,8 @@ function App() {
 
   return (
     <div>  
-      <label>Enter endpoint:</label>
+      <div>
+        <label>Enter endpoint:</label>
         <input 
           type="text" 
           id="lname" 
@@ -106,22 +108,27 @@ function App() {
           value={callData.endPoint} 
           onChange={(e) => setEndpoint(e.target.value)}
         ></input>
-        <textarea onChange={(e) => setData(e.target.value)}>
+      </div>
+      <div>  
+        <label>Headers:</label>
+        <textarea onChange={(e) => setHeaders(e.target.value)}>
           {callData.headers}
         </textarea>
-        <textarea onChange={(e) => setHeaders(e.target.value)}>
+        <label>Data:</label>
+        <textarea onChange={(e) => setData(e.target.value)}>
           {callData.data}
         </textarea>
-        <span>
+        <label>Method:</label>
         <select onChange={(e) => setType(e.target.value)}>
           <option value="PUT">PUT</option>
           <option value="GET">GET</option>
           <option value="POST">POST</option>
           <option value="DELETE">DELETE</option>
         </select>
-      </span>
-      
-      <button onClick={startCall}>ENVIAR</button>
+      </div>
+      <div>
+        <button onClick={startCall}>ENVIAR</button>
+      </div>
       <DisplayApi msg ={callMsg} data = { content }/>
     </div>
   );
