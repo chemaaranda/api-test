@@ -6,7 +6,7 @@ import DisplayApi from './DisplayApi';
 
 function App() {
 
-  const [content, setContent] = useState("*****************");
+  const [content, setContent] = useState();
   const [endPonintsList, setEndPonintsList] = useState([]);
   const [callMsg, setMsg] = useState()
 
@@ -29,7 +29,7 @@ function App() {
 }, [callData]);
 
   const startCall= () => {
-    alert('check data has a valid JSON')
+    // alert('check data has a valid JSON')
     setMsg("calling..." + callData.endPoint)
     setEndPonintsList([...endPonintsList, callData.endPoint])
     setCallData(previousState => {
@@ -50,12 +50,14 @@ function App() {
     .then(res => res.json())
     .then(
       (result) => {
-        setMsg("response")
+        setMsg("")
         /*this.setState({
           isLoaded: true,
           items: result.items
         });*/
+        console.log("===================================================================")
         console.log(result)
+        console.log("===================================================================")
         setContent(JSON.stringify(result))
 
       },
@@ -98,38 +100,70 @@ function App() {
   }
 
   return (
-    <div>  
-      <div>
-        <label>Enter endpoint:</label>
-        <input 
-          type="text" 
-          id="lname" 
-          name="lname" 
-          value={callData.endPoint} 
-          onChange={(e) => setEndpoint(e.target.value)}
-        ></input>
-      </div>
-      <div>  
-        <label>Headers:</label>
-        <textarea onChange={(e) => setHeaders(e.target.value)}>
-          {callData.headers}
-        </textarea>
-        <label>Data:</label>
-        <textarea onChange={(e) => setData(e.target.value)}>
-          {callData.data}
-        </textarea>
-        <label>Method:</label>
-        <select onChange={(e) => setType(e.target.value)}>
-          <option value="PUT">PUT</option>
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-          <option value="DELETE">DELETE</option>
-        </select>
-      </div>
-      <div>
-        <button onClick={startCall}>ENVIAR</button>
-      </div>
-      <DisplayApi msg ={callMsg} data = { content }/>
+    <div class="container"> 
+      <section class="section">
+        <h1 class="title">
+          Easy online API test
+        </h1>
+        <div class="field">
+          <label>Endpoint:</label>
+          <input 
+            class="input"
+            type="text" 
+            id="lname" 
+            name="lname" 
+            value={callData.endPoint} 
+            onChange={(e) => setEndpoint(e.target.value)}
+          ></input>
+        </div>
+        
+        <div class="columns">
+          <div class="column">
+            <div class="field">  
+              <label>Headers:</label>
+              <textarea 
+                class= "textarea"
+                onChange={(e) => setHeaders(e.target.value)}>
+                {callData.headers}
+              </textarea>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label>Data:</label>
+              <textarea 
+                class= "textarea"
+                onChange={(e) => setData(e.target.value)}>
+                {callData.data}
+              </textarea>
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label>Method:</label>
+              <br></br>
+              <div class="select">
+                <select onChange={(e) => setType(e.target.value)}>
+                  <option value="PUT">PUT</option>
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <center>
+            <button 
+              class="button is-medium is-primary" 
+              onClick={startCall}>SEND
+            </button>
+          </center>
+        </div>
+        <DisplayApi msg ={callMsg} data = { content }/>
+      </section>
     </div>
   );
 }
