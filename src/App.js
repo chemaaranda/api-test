@@ -55,9 +55,6 @@ function App() {
           isLoaded: true,
           items: result.items
         });*/
-        console.log("===================================================================")
-        console.log(result)
-        console.log("===================================================================")
         setContent(JSON.stringify(result))
 
       },
@@ -144,8 +141,8 @@ function App() {
               <br></br>
               <div class="select">
                 <select onChange={(e) => setType(e.target.value)}>
-                  <option value="PUT">PUT</option>
-                  <option value="GET">GET</option>
+                  <option value="PUT">GET</option>
+                  <option value="GET">PUT</option>
                   <option value="POST">POST</option>
                   <option value="DELETE">DELETE</option>
                 </select>
