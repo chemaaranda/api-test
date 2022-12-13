@@ -12,8 +12,8 @@ function App() {
 
   const [callData, setCallData] = useState({
     endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
-    data: "{'id': 1234}",
-    headers : "{'Content-Type': 'application/json'}",
+    data: "{\"id\": 1234}",
+    headers : "{\"Content-Type\": \"application/json\"}",
     type: "GET",
     response: "",
     timestampCallStart: "",
@@ -27,46 +27,73 @@ function App() {
 }, [callData]);
 
   const startCall= () => {
-    // alert('check data has a valid JSON')
-    setMsg("calling..." + callData.endPoint)
-    setEndPonintsList([...endPonintsList, callData.endPoint])
-    setCallData(previousState => {
-      return { ...previousState, timestampCallStart: Date.now() }
-    });
-    
-    console.log(callData)
-
-    let callConfig = {};
-    callConfig = {
-      "method": callData.type,
+    setContent("")
+    // check JSON 
+    let validJSONs = true
+    if(callData.data.trim().length !== 0)
+      try {
+          let _obj = JSON.parse(callData.data)
+      } catch (error) {
+        setMsg("ERROR IN DATA JSON")
+        validJSONs = false
       }
-      if(callData.type !== 'GET') callConfig.body = JSON.stringify(callData.data) 
-
-    fetch(callData.endPoint, callConfig)
-    .then(res => res.json())
-    .then(
-      (result) => {
-        setMsg("")
-        /*this.setState({
-          isLoaded: true,
-          items: result.items
-        });*/
-        console.log(result)
-        setContent(JSON.stringify(result))
-
-      },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
-      (error) => {
-        /*this.setState({
-          isLoaded: true,
-          error
-        });*/
-        console.log(error)
-        setMsg("ERROR " + error)
+    if(callData.headers.trim().length !== 0)
+      try {
+          let _obj = JSON.parse(callData.headers)
+      } catch (error) {
+        setMsg("ERROR IN HEADERS JSON")
+        validJSONs = false
       }
-    )
+
+    if(validJSONs){
+      setMsg("calling..." + callData.endPoint)
+      setEndPonintsList([...endPonintsList, callData.endPoint])
+      setCallData(previousState => {
+        return { ...previousState, timestampCallStart: Date.now() }
+      });
+      
+      console.log(callData)
+  
+      let callConfig = {};
+      callConfig = {
+        "method": callData.type,
+        }
+        if(callData.type !== 'GET') 
+          callConfig.body = JSON.stringify(callData.data) 
+          else{
+            if(callData.data.trim().length !== 0)
+              try {
+                  let _obj = JSON.parse(callData.data)
+                  let queryString = ''
+                  for (const item of Object.entries(_obj)) {
+                    console.log(item[0] + ',' + item[1])
+                    queryString += item[0] + '=' + item[1] + "&"
+                  }
+                  if (queryString.length !== 0){
+                    queryString = queryString.slice(0, -1)
+                    setEndpoint(callData.endPoint + '?' + queryString)
+                    setData("")
+                  } 
+              } catch (error) {
+                setMsg("ERROR IN DATA JSON")
+              }
+          }
+  
+      fetch(callData.endPoint, callConfig)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setMsg("")
+          console.log(result)
+          setContent(JSON.stringify(result))
+  
+        },
+        (error) => {
+          console.log(error)
+          setMsg("ERROR " + error)
+        }
+      )
+    }
   }
 
   const setEndpoint= (endpoint) => {
@@ -138,8 +165,8 @@ function App() {
               <br></br>
               <div className="select">
                 <select onChange={(e) => setType(e.target.value)}>
-                  <option value="PUT">GET</option>
-                  <option value="GET">PUT</option>
+                  <option value="GET">GET</option>
+                  <option value="PUT">PUT</option>
                   <option value="POST">POST</option>
                   <option value="DELETE">DELETE</option>
                 </select>
