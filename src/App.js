@@ -6,10 +6,6 @@ import DisplayApi from './DisplayApi';
 
 function App() {
 
-  const [content, setContent] = useState();
-  const [endPonintsList, setEndPonintsList] = useState([]);
-  const [callMsg, setMsg] = useState()
-
   const [displayData, setDisplayData] = useState({
     content: "",
     msg: "",
@@ -27,8 +23,6 @@ function App() {
   });
 
   useEffect(() => {
-    //Runs on the first render
-    //And any time any dependency value changes
     setCallData(callData)
 }, [callData]);
 
@@ -53,7 +47,6 @@ function App() {
 
     if(validJSONs){
       setDisplayData({ content: "{}", msg: callData.endPoint, type: "info" });
-      setEndPonintsList([...endPonintsList, callData.endPoint])
       setCallData(previousState => {
         return { ...previousState, timestampCallStart: Date.now() }
       });
