@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import logo from './logo.svg';
 import './App.css';
 import './bulma-rtl.min.css';
 import DisplayApi from './DisplayApi';
@@ -16,10 +15,7 @@ function App() {
     endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
     data: "{\"id\": 1234}",
     headers : "{\"Content-Type\": \"application/json\"}",
-    type: "GET",
-    response: "",
-    timestampCallStart: "",
-    timestampCallEnd: ""
+    type: "GET"
   });
 
   useEffect(() => {
@@ -47,9 +43,6 @@ function App() {
 
     if(validJSONs){
       setDisplayData({ content: "{}", msg: callData.endPoint, type: "info" });
-      setCallData(previousState => {
-        return { ...previousState, timestampCallStart: Date.now() }
-      });
       
       let callConfig = {};
       callConfig = {
