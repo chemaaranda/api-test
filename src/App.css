@@ -43,3 +43,7 @@
   background-color: #fff;
 }
 pre { padding: 5px; margin: 5px; }
+.info{color: blue}
+.warning{color:orange;}
+.error{color:red;}
+.success{color:green;}

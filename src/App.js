@@ -33,34 +33,26 @@ function App() {
 }, [callData]);
 
   const startCall= () => {
-    setDisplayData(previousState => {
-      return { ...previousState, content: "", msg: "", type: "info" }
-    });
+    setDisplayData({ content: "{}", msg: "", type: "info" });
     // check JSON 
     let validJSONs = true
     if(callData.data.trim().length !== 0)
       try {
           let _obj = JSON.parse(callData.data)
       } catch (error) {
-        setDisplayData(previousState => {
-          return { ...previousState, content: "", msg: "ERROR IN DATA JSON", type: "error" }
-        });
+        setDisplayData({ content: "{}", msg: "ERROR IN DATA JSON", type: "error" });
         validJSONs = false
       }
     if(callData.headers.trim().length !== 0)
       try {
           let _obj = JSON.parse(callData.headers)
       } catch (error) {
-        setDisplayData(previousState => {
-          return { ...previousState, content: "", msg: "ERROR IN HEADERS JSON", type: "error" }
-        });
+        setDisplayData({ content: "{}", msg: "ERROR IN HEADERS JSON", type: "error" });
         validJSONs = false
       }
 
     if(validJSONs){
-      setDisplayData(previousState => {
-        return { ...previousState, content: "", msg: "calling..." + callData.endPoint, type: "info" }
-      });
+      setDisplayData({ content: "{}", msg: callData.endPoint, type: "info" });
       setEndPonintsList([...endPonintsList, callData.endPoint])
       setCallData(previousState => {
         return { ...previousState, timestampCallStart: Date.now() }
@@ -89,9 +81,7 @@ function App() {
                     setData("")
                   } 
               } catch (error) {
-                setDisplayData(previousState => {
-                  return { ...previousState, content: "", msg: "ERROR" + callData.endPoint, type: "error" }
-                });
+                setDisplayData({content: "{}", msg: "ERROR" + callData.endPoint, type: "error" });
               }
           }
   
@@ -100,15 +90,11 @@ function App() {
       .then(
         (result) => {
           console.log(result)
-          setDisplayData(previousState => {
-            return { ...previousState, content: JSON.stringify(result), msg: "" + callData.endPoint, type: "info" }
-          });
+          setDisplayData({ content: JSON.stringify(result), msg: "" + callData.endPoint, type: "success" });
         },
         (error) => {
           console.log(error)
-          setDisplayData(previousState => {
-            return { ...previousState, content: "ERROR", msg: "" + callData.endPoint, type: "error" }
-          });
+          setDisplayData({ content: "{}", msg: "ERROR", type: "error" });
         }
       )
     }
@@ -201,7 +187,7 @@ function App() {
             </button>
           </center>
         </div>
-        <DisplayApi msg ={displayData.msg} data = { displayData.content }/>
+        <DisplayApi msg ={displayData.msg} data = { displayData.content } type = { displayData.type } />
       </section>
     </div>
   );

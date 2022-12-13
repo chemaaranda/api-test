@@ -6,16 +6,18 @@ function DisplayApi(props) {
 
   const [content, setContent] = useState("");
   const [msg, setMsg] = useState("");
+  const [classMsg, setClassMsg] = useState("");
 
     useEffect(() => {  
-      let _data = props.data ? '<pre>' +JSON.stringify(JSON.parse(props.data), undefined, 2) + '</pre>' : ""
+      let _data = props.data ? '<pre>' + JSON.stringify(JSON.parse(props.data), undefined, 2) + '</pre>' : ""
       setContent(_data)
       setMsg(props.msg)
+      setClassMsg(props.type)
     }, [props]);
 
 return (
     <div>
-      <div>
+      <div className={classMsg}>
         {msg}
       </div>
       <div>
