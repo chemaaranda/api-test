@@ -58,8 +58,6 @@ function App() {
         return { ...previousState, timestampCallStart: Date.now() }
       });
       
-      console.log(callData)
-  
       let callConfig = {};
       callConfig = {
         "method": callData.type,
@@ -72,7 +70,6 @@ function App() {
                   let _obj = JSON.parse(callData.data)
                   let queryString = ''
                   for (const item of Object.entries(_obj)) {
-                    console.log(item[0] + ',' + item[1])
                     queryString += item[0] + '=' + item[1] + "&"
                   }
                   if (queryString.length !== 0){
@@ -89,11 +86,9 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result)
           setDisplayData({ content: JSON.stringify(result), msg: "" + callData.endPoint, type: "success" });
         },
         (error) => {
-          console.log(error)
           setDisplayData({ content: "{}", msg: "ERROR", type: "error" });
         }
       )
