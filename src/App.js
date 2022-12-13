@@ -12,7 +12,7 @@ function App() {
 
   const [callData, setCallData] = useState({
     endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
-    data: "{id: 1234}",
+    data: "{'id': 1234}",
     headers : "{'Content-Type': 'application/json'}",
     type: "GET",
     response: "",
@@ -23,9 +23,7 @@ function App() {
   useEffect(() => {
     //Runs on the first render
     //And any time any dependency value changes
-    console.log('useEfefect 2')
     setCallData(callData)
-    console.log(callData)
 }, [callData]);
 
   const startCall= () => {
@@ -35,16 +33,14 @@ function App() {
     setCallData(previousState => {
       return { ...previousState, timestampCallStart: Date.now() }
     });
+    
     console.log(callData)
-    console.log(endPonintsList)
 
     let callConfig = {};
     callConfig = {
       "method": callData.type,
       }
       if(callData.type !== 'GET') callConfig.body = JSON.stringify(callData.data) 
-
-      console.log(callConfig)
 
     fetch(callData.endPoint, callConfig)
     .then(res => res.json())
@@ -55,6 +51,7 @@ function App() {
           isLoaded: true,
           items: result.items
         });*/
+        console.log(result)
         setContent(JSON.stringify(result))
 
       },
@@ -67,7 +64,7 @@ function App() {
           error
         });*/
         console.log(error)
-        setMsg("ERROR")
+        setMsg("ERROR " + error)
       }
     )
   }
@@ -97,15 +94,15 @@ function App() {
   }
 
   return (
-    <div class="container"> 
-      <section class="section">
-        <h1 class="title">
-          Easy online API test
+    <div className="container"> 
+      <section className="section">
+        <h1 className="title">
+          Easy Online API Test
         </h1>
-        <div class="field">
+        <div className="field">
           <label>Endpoint:</label>
           <input 
-            class="input"
+            className="input"
             type="text" 
             id="lname" 
             name="lname" 
@@ -114,32 +111,32 @@ function App() {
           ></input>
         </div>
         
-        <div class="columns">
-          <div class="column">
-            <div class="field">  
+        <div className="columns">
+          <div className="column">
+            <div className="field">  
               <label>Headers:</label>
               <textarea 
-                class= "textarea"
-                onChange={(e) => setHeaders(e.target.value)}>
-                {callData.headers}
+                className= "textarea"
+                onChange={(e) => setHeaders(e.target.value)}
+                value={callData.headers}>
               </textarea>
             </div>
           </div>
-          <div class="column">
-            <div class="field">
+          <div className="column">
+            <div className="field">
               <label>Data:</label>
               <textarea 
-                class= "textarea"
-                onChange={(e) => setData(e.target.value)}>
-                {callData.data}
+                className= "textarea"
+                onChange={(e) => setData(e.target.value)}
+                value={callData.data}>
               </textarea>
             </div>
           </div>
-          <div class="column">
-            <div class="field">
+          <div className="column">
+            <div className="field">
               <label>Method:</label>
               <br></br>
-              <div class="select">
+              <div className="select">
                 <select onChange={(e) => setType(e.target.value)}>
                   <option value="PUT">GET</option>
                   <option value="GET">PUT</option>
@@ -151,10 +148,10 @@ function App() {
           </div>
         </div>
 
-        <div class="field">
+        <div className="field">
           <center>
             <button 
-              class="button is-medium is-primary" 
+              className="button is-medium is-primary" 
               onClick={startCall}>SEND
             </button>
           </center>
