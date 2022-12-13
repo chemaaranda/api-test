@@ -10,6 +10,12 @@ function App() {
   const [endPonintsList, setEndPonintsList] = useState([]);
   const [callMsg, setMsg] = useState()
 
+  const [displayData, setDisplayData] = useState({
+    content: "",
+    msg: "",
+    type : ""
+  });
+
   const [callData, setCallData] = useState({
     endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
     data: "{\"id\": 1234}",
@@ -27,26 +33,34 @@ function App() {
 }, [callData]);
 
   const startCall= () => {
-    setContent("")
+    setDisplayData(previousState => {
+      return { ...previousState, content: "", msg: "", type: "info" }
+    });
     // check JSON 
     let validJSONs = true
     if(callData.data.trim().length !== 0)
       try {
           let _obj = JSON.parse(callData.data)
       } catch (error) {
-        setMsg("ERROR IN DATA JSON")
+        setDisplayData(previousState => {
+          return { ...previousState, content: "", msg: "ERROR IN DATA JSON", type: "error" }
+        });
         validJSONs = false
       }
     if(callData.headers.trim().length !== 0)
       try {
           let _obj = JSON.parse(callData.headers)
       } catch (error) {
-        setMsg("ERROR IN HEADERS JSON")
+        setDisplayData(previousState => {
+          return { ...previousState, content: "", msg: "ERROR IN HEADERS JSON", type: "error" }
+        });
         validJSONs = false
       }
 
     if(validJSONs){
-      setMsg("calling..." + callData.endPoint)
+      setDisplayData(previousState => {
+        return { ...previousState, content: "", msg: "calling..." + callData.endPoint, type: "info" }
+      });
       setEndPonintsList([...endPonintsList, callData.endPoint])
       setCallData(previousState => {
         return { ...previousState, timestampCallStart: Date.now() }
@@ -75,7 +89,9 @@ function App() {
                     setData("")
                   } 
               } catch (error) {
-                setMsg("ERROR IN DATA JSON")
+                setDisplayData(previousState => {
+                  return { ...previousState, content: "", msg: "ERROR" + callData.endPoint, type: "error" }
+                });
               }
           }
   
@@ -83,14 +99,16 @@ function App() {
       .then(res => res.json())
       .then(
         (result) => {
-          setMsg("")
           console.log(result)
-          setContent(JSON.stringify(result))
-  
+          setDisplayData(previousState => {
+            return { ...previousState, content: JSON.stringify(result), msg: "" + callData.endPoint, type: "info" }
+          });
         },
         (error) => {
           console.log(error)
-          setMsg("ERROR " + error)
+          setDisplayData(previousState => {
+            return { ...previousState, content: "ERROR", msg: "" + callData.endPoint, type: "error" }
+          });
         }
       )
     }
@@ -183,7 +201,7 @@ function App() {
             </button>
           </center>
         </div>
-        <DisplayApi msg ={callMsg} data = { content }/>
+        <DisplayApi msg ={displayData.msg} data = { displayData.content }/>
       </section>
     </div>
   );
