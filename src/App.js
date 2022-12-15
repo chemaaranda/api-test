@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import './App.css';
 import './bulma-rtl.min.css';
 import DisplayApi from './DisplayApi';
+import { validJSON } from './utils';
 
 function App() {
 
@@ -26,18 +27,14 @@ function App() {
     setDisplayData({ content: "{}", msg: "", type: "info" });
     // check JSON 
     let validJSONs = true
-    if(callData.data.trim().length !== 0)
-      try {
-          let _obj = JSON.parse(callData.data)
-      } catch (error) {
-        setDisplayData({ content: "{}", msg: "ERROR IN DATA JSON", type: "error" });
+
+    if((callData.data.trim().length !== 0) && (! validJSON(callData.data))){
+        setDisplayData({ content: "{}", msg: "ERROR IN DATA JSON", type: "error" })
         validJSONs = false
       }
-    if(callData.headers.trim().length !== 0)
-      try {
-          let _obj = JSON.parse(callData.headers)
-      } catch (error) {
-        setDisplayData({ content: "{}", msg: "ERROR IN HEADERS JSON", type: "error" });
+
+    if((callData.headers.trim().length !== 0) && (! validJSON(callData.headers))){
+        setDisplayData({ content: "{}", msg: "ERROR IN HEADERS JSON", type: "error" })
         validJSONs = false
       }
 
