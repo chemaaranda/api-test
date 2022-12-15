@@ -165,7 +165,11 @@ function App() {
             </button>
           </center>
         </div>
-        <DisplayApi msg ={displayData.msg} data = { displayData.content } type = { displayData.type } />
+        <DisplayApi 
+            msg ={displayData.msg} 
+            data = { displayData.content } 
+            type = { displayData.type } 
+        />
       </section>
     </div>
   );

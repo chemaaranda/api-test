@@ -2,7 +2,7 @@
   const validJSON = (obj) => {
     let valid = true
     try {
-        let _obj = JSON.parse(obj)
+        JSON.parse(obj)
     } catch (error) {
       valid = false
     }
