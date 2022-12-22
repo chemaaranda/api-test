@@ -13,7 +13,7 @@ function App() {
   });
 
   const [callData, setCallData] = useState({
-    endPoint: "https://api.coindesk.com/v1/bpi/currentprice.json",
+    endPoint: "http://www.easy-online-api-test.com/API/api.php",
     data: "{\"id\": 1234}",
     headers : "{\"Content-Type\": \"application/json\"}",
     type: "GET"
