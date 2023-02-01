@@ -6,6 +6,18 @@ import { validJSON } from './utils';
 
 function App() {
 
+  let acceptedCookies = document.cookie.includes("acceptedCookies=true")
+  console.log('document.cookie.includes("acceptedCookies=true"): ' + document.cookie.includes("acceptedCookies=true"))
+  console.log(document.cookie)
+  console.log("acceptedCookies: " + acceptedCookies)
+  /*
+  if(!document.cookie.includes("acceptedCookies=true")){
+    console.log('setting cookie')
+    document.cookie = 'acceptedCookies=true;'
+    console.log('===>> ' + document.cookie)
+  }
+  */
+
   const [displayData, setDisplayData] = useState({
     content: "",
     msg: "",
@@ -104,6 +116,40 @@ function App() {
 
   return (
     <div className="container"> 
+     <div class="modal" is-active>
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Modal title</p>
+              <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              YO HAVE TO ACCEPT COOKIES!!!
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-success">Save changes</button>
+              <button class="button">Cancel</button>
+            </footer>
+          </div>
+        </div>
+    {!acceptedCookies &&
+        <div class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Modal title</p>
+              <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              YO HAVE TO ACCEPT COOKIES!!!
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-success">Save changes</button>
+              <button class="button">Cancel</button>
+            </footer>
+          </div>
+        </div>
+      }
       <section className="section">
         <h1 className="title">
           Easy Online API Test
